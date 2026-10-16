@@ -1,13 +1,25 @@
-# starsOS 🌌
+# xkmyth · 星空神话 发行仓库
 
-基于 Windows 11 25H2 深度定制的星空操作系统，配套浏览器与云盘生态。
+xkmyth 生态所有安装包的集散地。小文件走 GitHub Releases（全球 CDN 直连），大文件走私有云盘直链。
 
-## 生态
-- **starsOS 系统** — Win11 25H2 定制版 · 星空主题 · 双账户（starsOS 账户 + 微软账户）
-- **starsOS 浏览器** — Electron 内核 · 无边框 · 广告拦截 · 翻译增强（v4.0.2）
-- **starsOS 云盘** — Cloudreve 私有云 · IPv6 直连 · WebDAV
+- 下载页：https://xkmyth.github.io/xkmyth/
+- 主站：https://xkmyth.github.io/
 
-## 官网
-<https://xkmyth.github.io/startos/>
+## 最新发行
 
-> 仅供学习交流
+前往 [Releases](https://github.com/xkmyth/xkmyth/releases) 下载。链接固定指向最新版：
+
+| 组件 | 直链 |
+| --- | --- |
+| 🧭 浏览器（Windows 64 位） | `/releases/latest/download/xkmyth-browser-win-x64.zip` |
+| ☁️ 云盘客户端（Windows 64 位） | `/releases/latest/download/xkmyth-cloud-win-x64.zip` |
+| 📱 浏览器 APK | `/releases/latest/download/xkmyth-browser.apk` |
+| 📱 云盘 APK | `/releases/latest/download/xkmyth-cloud.apk` |
+
+## 定制系统镜像
+
+Win11 25H2 深度定制 ISO（约 8GB）体积超过 GitHub 附件上限，走私有云盘：<https://xkmyth.dynv6.net:5212/>
+
+## 说明
+
+仅供学习交流，请勿用于商业用途；系统镜像不含任何激活破解。
