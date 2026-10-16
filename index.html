@@ -3,150 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="starsOS 星空生态 —— 你的浏览器 · 你的云盘 · 你的系统。一套完全属于你自己的数字星空：starsOS 浏览器、私有云盘与深度定制系统。">
-<title>starsOS · 星空生态</title>
+<meta name="description" content="xkmyth 星空神话 发行仓库 —— 浏览器、云盘客户端、安卓 APK、定制 Win11 系统镜像，全部直连下载。">
+<title>发行仓库 · 星空神话 xkmyth</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='45' r='16' fill='%23fcd34d'/><path d='M50 20v50M25 45h50' stroke='%23fcd34d' stroke-width='6'/><ellipse cx='50' cy='66' rx='26' ry='8' stroke='%239ae3ff' stroke-width='3' fill='none' transform='rotate(-15 50 66)'/></svg>">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <canvas id="sky"></canvas>
-
-<header class="nav">
-  <div class="nav-inner">
-    <div class="brand"><span class="brand-star">★</span> starsOS</div>
-    <nav>
-      <a href="#ecosystem">生态</a>
-      <a href="#system">系统</a>
-      <a href="#download">下载</a>
-      <a href="#guide">安装</a>
-    </nav>
-  </div>
-</header>
+<header class="nav"><div class="nav-inner">
+  <div class="brand"><span class="brand-star">★</span> xkmyth</div>
+  <nav>
+    <a href="https://xkmyth.github.io/">主站</a>
+    <a href="https://xkmyth.github.io/Timarsky/">工具站</a>
+    <a href="https://xkmyth.github.io/about/">关于</a>
+    <a href="https://github.com/xkmyth/xkmyth/releases" target="_blank" rel="noopener">Releases</a>
+  </nav>
+</div></header>
 
 <section class="hero">
-  <h1 class="hero-title">stars<span class="gold">OS</span></h1>
-  <p class="hero-sub">星空生态 · 浏览器 / 云盘 / 定制系统</p>
-  <p class="hero-desc">不是一台电脑的标签，而是一整套属于你的数字星空 —— 干净好用的浏览器、只属于你的私有云盘，外加一台深度定制的系统</p>
+  <h1 class="hero-title">发行 <span class="gold">仓库</span></h1>
+  <p class="hero-sub">客户端 · APK · 定制系统镜像</p>
+  <p class="hero-desc">这里是 xkmyth 生态所有安装包的集散地。小文件走 GitHub Releases（全球 CDN 直连），大文件走私有云盘直链。</p>
   <div class="hero-actions">
-    <a class="btn primary" href="#download">下载生态应用</a>
-    <a class="btn ghost" href="#ecosystem">了解生态</a>
-  </div>
-  <div class="hero-meta">浏览器 v4.0.2 · 云盘在线 · 系统 v1.0（Win11 25H2）</div>
-</section>
-
-<section class="section" id="ecosystem">
-  <h2 class="sec-title">starsOS <span class="gold">生态</span></h2>
-  <p class="sec-sub">三件套，组合成你的私人数字空间</p>
-  <div class="eco-grid">
-    <div class="eco-card">
-      <div class="eco-ico">🧭</div>
-      <h3>starsOS 浏览器</h3>
-      <p>Electron 内核 · 星空 UI · 无边框多标签 · 广告拦截 · 一键翻译 · 主页快捷方式自定义 · 全局快捷键，网页里按 Ctrl+T 一样新建标签</p>
-      <span class="tag">Windows · Android</span>
-    </div>
-    <div class="eco-card">
-      <div class="eco-ico">☁️</div>
-      <h3>starsOS 云盘</h3>
-      <p>你自己的私有云盘 · 双端客户端带下载进度 · WebDAV 备份 · 手机浏览器零安装直连 · 数据只在你手里</p>
-      <span class="tag">在线服务 · HTTPS</span>
-    </div>
-    <div class="eco-card">
-      <div class="eco-ico">🌌</div>
-      <h3>starsOS 定制系统</h3>
-      <p>基于 Windows 11 25H2 深度定制镜像：星空主题、去 TPM 限制、生态预装 —— 装上即融入整个 starsOS 生态</p>
-      <span class="tag">v1.0 · ISO</span>
-    </div>
+    <a class="btn primary" href="https://github.com/xkmyth/xkmyth/releases" target="_blank" rel="noopener">查看全部 Release</a>
+    <a class="btn ghost" href="https://xkmyth.github.io/">回到主站</a>
   </div>
 </section>
 
-<section class="section alt" id="system">
-  <h2 class="sec-title">定制系统 · 生态的 <span class="gold">底座</span></h2>
-  <p class="sec-sub">生态里的系统，系统里的生态 —— 一台装好即开即用的星空电脑</p>
-  <div class="feat-grid">
-    <div class="feat-card">
-      <div class="feat-em">🌌</div>
-      <h3>星海深空主题</h3>
-      <p>4K 星云壁纸 · 深空配色 · 系统级主题注入，登录、桌面、锁屏浑然一体</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-em">👤</div>
-      <h3>双账户模式</h3>
-      <p>starsOS 专属账户 + 微软账户自由切换，本地账户秒开，云端同步两不误</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-em">⚡</div>
-      <h3>开机提速</h3>
-      <p>精简启动项 · 后台服务按需加载，开机即用，拒绝拖沓</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-em">🏷️</div>
-      <h3>OEM 品牌注入</h3>
-      <p>系统属性显示 starsOS 专属 Logo 与信息，品牌无处不在</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-em">📦</div>
-      <h3>生态预装</h3>
-      <p>浏览器 · 云盘客户端开箱即用，登录即连你的云，与网站、手机端完全同源</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-em">🛡️</div>
-      <h3>无人值守安装</h3>
-      <p>全自动应答 · 免交互装完即进系统，新手也能十分钟装好</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="download">
+<section class="section">
   <h2 class="sec-title">立即 <span class="gold">下载</span></h2>
-  <p class="sec-sub">安装包托管于 GitHub Releases（全球 CDN）与私有云盘</p>
+  <p class="sec-sub">链接永远指向最新版本（latest）</p>
   <div class="dl-grid">
-    <div class="dl-card">
-      <div class="dl-name">🧭 starsOS 浏览器</div>
-      <div class="dl-desc">Windows 64位 · v4.0.2 · 免安装绿色版</div>
-      <a class="btn small" href="https://github.com/xkmyth/startos/releases/download/v1.0.0/starsOS-browser-win-x64.zip" target="_blank" rel="noopener">下载 ⬇</a>
-    </div>
-    <div class="dl-card">
-      <div class="dl-name">☁️ starsOS 云盘客户端</div>
-      <div class="dl-desc">Windows 64位 · 免安装绿色版</div>
-      <a class="btn small" href="https://github.com/xkmyth/startos/releases/download/v1.0.0/starsOS-cloud-win-x64.zip" target="_blank" rel="noopener">下载 ⬇</a>
-    </div>
-    <div class="dl-card">
-      <div class="dl-name">📱 starsOS 浏览器 APK</div>
-      <div class="dl-desc">Android · v2.0.0 · 星空主页 · 可自定义快捷方式</div>
-      <a class="btn small" href="https://github.com/xkmyth/startos/releases/download/v1.0.0/starsOS-browser.apk" target="_blank" rel="noopener">下载 ⬇</a>
-    </div>
-    <div class="dl-card">
-      <div class="dl-name">📱 starsOS 云盘 APK</div>
-      <div class="dl-desc">Android · 下载进度条 · 轻量客户端</div>
-      <a class="btn small" href="https://github.com/xkmyth/startos/releases/download/v1.0.0/starsOS-cloud.apk" target="_blank" rel="noopener">下载 ⬇</a>
-    </div>
-    <div class="dl-card">
-      <div class="dl-name">🌌 starsOS 定制系统镜像</div>
-      <div class="dl-desc">Win11 25H2 定制 ISO · 约 8GB · 云盘直取</div>
-      <a class="btn small" href="https://starsos.dynv6.net:5212/" target="_blank" rel="noopener">云盘获取 ↗</a>
-    </div>
+    <div class="dl-card"><div class="dl-name">🧭 xkmyth 浏览器（Windows）</div><div class="dl-desc">Windows 64 位 · v4.0.2 · 免安装绿色版</div>
+      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-browser-win-x64.zip" target="_blank" rel="noopener">下载 ⬇</a></div>
+    <div class="dl-card"><div class="dl-name">☁️ xkmyth 云盘客户端（Windows）</div><div class="dl-desc">Windows 64 位 · 免安装绿色版</div>
+      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-cloud-win-x64.zip" target="_blank" rel="noopener">下载 ⬇</a></div>
+    <div class="dl-card"><div class="dl-name">📱 xkmyth 浏览器 APK</div><div class="dl-desc">Android · v2.0.0 · 星空主页 · 可自定义快捷方式</div>
+      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-browser.apk" target="_blank" rel="noopener">下载 ⬇</a></div>
+    <div class="dl-card"><div class="dl-name">📱 xkmyth 云盘 APK</div><div class="dl-desc">Android · 下载进度条 · 轻量客户端</div>
+      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-cloud.apk" target="_blank" rel="noopener">下载 ⬇</a></div>
+    <div class="dl-card"><div class="dl-name">🌌 xkmyth 定制系统镜像</div><div class="dl-desc">Win11 25H2 定制 ISO · 约 8GB · 云盘直取</div>
+      <a class="btn small" href="https://xkmyth.dynv6.net:5212/" target="_blank" rel="noopener">云盘获取 ↗</a></div>
   </div>
 </section>
 
-<section class="section alt" id="guide">
-  <h2 class="sec-title">装好系统 · 加入 <span class="gold">生态</span></h2>
-  <div class="guide-steps">
-    <div class="step"><b>1</b><p>下载镜像，用 Ventoy 写入 U 盘启动（或直接解压安装）</p></div>
-    <div class="step"><b>2</b><p>自动应答安装，全程免交互，装完自动创建 starsOS 账户</p></div>
-    <div class="step"><b>3</b><p>首次进入自动应用星空主题，浏览器与云盘客户端已就位</p></div>
-    <div class="step"><b>4</b><p>打开浏览器进新标签页，云盘、工具站一键直达 —— 生态开始运转</p></div>
-  </div>
-</section>
-
-<footer class="foot">
-  <div class="foot-inner">
-    <div class="foot-brand"><span class="brand-star">★</span> starsOS</div>
-    <p>你的浏览器 · 你的云盘 · 你的系统</p>
-    <p class="foot-links"><a href="https://github.com/xkmyth/startos" target="_blank" rel="noopener">GitHub</a> · <a href="https://starsos.dynv6.net:5212/" target="_blank" rel="noopener">云盘</a></p>
-    <p class="foot-copy">© 2026 starsOS · 星空之下，万物皆可定制 · 仅供学习交流</p>
-  </div>
-</footer>
-
+<footer class="foot"><div class="foot-inner">
+  <div class="foot-brand"><span class="brand-star">★</span> xkmyth</div>
+  <p>你的浏览器 · 你的云盘 · 你的系统</p>
+  <p class="foot-links"><a href="https://xkmyth.github.io/">主站</a> · <a href="https://github.com/xkmyth" target="_blank" rel="noopener">GitHub</a></p>
+  <p class="foot-copy">© 2026 星空神话 xkmyth · 仅供学习交流</p>
+</div></footer>
 <script src="main.js"></script>
 </body>
 </html>
