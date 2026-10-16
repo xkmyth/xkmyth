@@ -1,4 +1,4 @@
-// starsOS 官网：星空动画 + 流星
+// xkmyth 官网：星空动画 + 流星
 (function () {
   const cv = document.getElementById('sky');
   const ctx = cv.getContext('2d');
