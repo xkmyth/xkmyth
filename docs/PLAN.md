@@ -363,3 +363,46 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 
 ### 15.5 校验
 `verify_all.py`：发行仓 1 + 主站 51 + 关于 1 + 工具站 141 = 194 页，错误 0；JSON-LD 194 处全部可解析；`href/src` 里出现盘符 0 处。
+
+
+## 16. 第九轮：场景化合集 + 富结果结构化数据（2026-10-18）
+
+### 16.1 工具合集 `/collections/`
+139 个工具按九类分好，但找工具时人想的是「我现在要干什么」。新增八组合集，每组按真实动手顺序排：
+
+| 合集 | 工具 | 说明 |
+| --- | --- | --- |
+| 上线前十分钟 | json · diff · hash · crc32 · httpstatus · mime | 发版前自检 |
+| 写文档与说明 | mdtable · outline · csv2md · slugify · htmlent · lorem | 排版与样例 |
+| 排线上问题 | urlparts · qsparse · jwt · hexdump · unicode · ts · tz | 字符串里找线索 |
+| 账号与密码 | pwd · passphrase · entropy · totp · hmac · policychk | 全部本地计算 |
+| 网络与子网 | cidr · vlsm · ipv4conv · ipv6expand · iprange · portinfo · macfmt | 划网段 |
+| 钱与数 | percent · compound · loanrate · profit · unitcost · rmbcap · tip | 口径写进结果 |
+| 文本急救 | dedupe · sortlines · trimlines · stripzero · textclean · findrep · cap | 粘来的文本收拾干净 |
+| 编码与转义 | b64 · base32 · url · unicode · uniesc · jsstr | 定位是哪一层改写了字符 |
+
+八组合计 52 处引用、去重 51 个工具。页脚 52 页、首页 `#sites`、工具目录、生态地图都挂了入口。
+
+### 16.2 富结果结构化数据
+在通用 `WebPage` 之外，给「能被搜索引擎当卡片展示」的页面单独加了 schema：
+
+- `/faq/` → `FAQPage`，12 组问答直接从页面 `details` 抽取（问题取 `summary`，答案取正文，去标签去实体）；
+- `/guide/` → `HowTo` 四步（挑包 → 校验 → 解压安装 → 接自己的云）；
+- `/docs/install/` → `HowTo` 三步（解压 → 放行 → 建快捷方式）；
+- `/tools/` → `ItemList` 139 项；`/software/` → `ItemList` 10 项；`/collections/` → `CollectionPage` + 八项列表。
+
+这些脚本带 `data-kind` 属性，与第七轮注入的通用 JSON-LD 互不干扰（后者用无属性选择器清理，前者按 `data-kind` 原位替换）。
+
+### 16.3 站务日志补到六篇
+新增两篇长文：`/blog/pwa-not-just-manifest/`（manifest scope、三类缓存策略、更新时机）、`/blog/tests-before-139-tools/`（注册/渲染分离、DOM 桩、环境噪音分桶、修工具不修桩）。`/blog/feed.xml` 改为扫描文章页重建，`pubDate` 用标准 RFC822。
+
+### 16.4 数字口径交给脚本
+`/stats/` 与首页 hero 规模条改由 `refresh_stats.py` 重算：站点页数（排除 404）、HTML 总体积、样式/脚本数量与体积、应用数、工具数。同时 `fix_counts.py` 把全站「N 个入口」统一成实际页数（本轮 53）。
+
+### 16.5 踩坑
+1. **脚本文案会过期**：`46 个入口` 在加了两篇文章后就不对了，所以口径必须由脚本写，不能手写（D26）。
+2. **选择器要按真实 DOM 写**：软件库卡片是 `<div class="site-name">` 不是 `<span>`，写错就整段跳过 —— 富结果脚本现在每条都打印命中数量，为 0 即报错。
+3. **`S.page()` 已自带 canonical / OG / skip-link**：新页面自动合格，历史页面靠补丁对齐，两套并存时要按 `data-kind` 区分来源。
+
+### 16.6 校验
+`verify_all.py`：发行仓 1 + 主站 54 + 关于 1 + 工具站 141 = 197 页，错误 0；JSON-LD 全部可解析（含 FAQPage/HowTo/ItemList）；`sitemap.xml` 197 条、`search-index.json` 196 条。
