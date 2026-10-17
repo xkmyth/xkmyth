@@ -218,3 +218,42 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 | 首页 | 生态地图 15 卡 + 8 项锚点导航 + 统一 footer 地图，sitemap 21 条 |
 
 工具清单：时间戳、Base64、URL、JSON、文本统计、命名风格、SHA-1/256/512、密码生成、UUID、颜色、进制、Markdown、正则、diff、cron、单位换算、大小写、随机数、贷款、BMI、日期差、Unicode、JWT、时区、子网、调色板、图片转 Base64、文本清理、表达式计算器、CSV。
+
+## 12. 第四轮：软件库 / 46 站矩阵 / 139 工具（2026-10-17）
+
+哥这一轮的要求是「46 个自站、10 个自研软件、120 个在线工具、无敌的美观」，全部按最低要求之上交付。
+
+| 项目 | 目标 | 实际 |
+| --- | --- | --- |
+| 自站 | 46 | **46 个页面 + 404**（主站 36 个 HTML + 软件库 10 个应用页 + 目录页） |
+| 自研软件 | 10 | **10 个纯前端应用**，全部可真用、可离线、数据只留在本机 |
+| 在线工具 | 120 | **139 个**，9 大类，全部浏览器内计算，无上传、无外部依赖 |
+| 设计系统 | 美观 | `style.css` v2（17 段组件层）+ `sub.css` v2 + `software/app.css` 三层，深浅色主题、极光背景、命令面板 |
+| 搜索 | 好用 | `⌘K` / `Ctrl+K` / `/` 唤起命令面板，索引 186 条（47 页 + 139 工具） |
+| 校验 | 可信 | 4 仓 HTML 结构/锚点/引用 0 错误；139 个工具在 DOM 桩环境逐个构建 0 报错 |
+
+### 12.1 十个自研软件（`/software/<slug>/`）
+
+保险箱（PBKDF2 15 万轮 + AES-GCM-256，5 分钟空闲锁）、笔记（自写 Markdown 渲染、1.2s 自动保存、导入导出 `.md`）、图片压缩（Canvas 重采样，逐张体积对比）、记账（分类柱状、CSV 导出带 BOM）、专注计时（SVG 环形进度、WebAudio 合成白噪音、任务清单）、代码片段、批量重命名（正则/前后缀/编号，导出 `.sh`）、壁纸生成（6 套配色，导出 1920–3840 PNG）、录音（MediaRecorder，内存中试听与下载）、剪贴板历史（自动收录、置顶、搜索）。
+
+十个应用共享同一套壳：`sub.js` 提供主题/命令面板/Toast/复制/渐入，`software/app.css` 提供应用层组件，`sw_common.py` 生成 HTML，避免十份重复代码。
+
+### 12.2 46 个站点
+
+产品线（Downloads、软件库、10 个应用页）· 文档线（Docs 首页、getting-started、install、verify、troubleshoot、architecture、contributing、api、glossary、guide、faq、security、compare、changelog）· 生态线（生态地图、archive、mirrors、benchmark、roadmap、blog、lab、status、stats）· 参与线（support、report、community、contact、thanks、privacy、license、press、brand、search、404）。
+
+`/ecosystem/` 是全部入口的总表，`/search/` 是独立搜索页，`/stats/` 的数字由生成脚本现场统计（页数、体积），不是手写。
+
+### 12.3 139 个在线工具（9 类）
+
+编码 15 · 文本 22 · 时间 11 · 安全 9 · 数值 18 · 开发 27 · 计算 18 · 网络 11 · 文件 8。
+
+凡是能本地算的一律本地算：哈希/ HMAC / PBKDF2 / TOTP 走 WebCrypto，子网计算走位运算，Unix 时间戳与时区走 `Intl`，图片转 Base64 与文件哈希走 `FileReader`。没有一处把内容发到服务器。
+
+`/tools/` 目录页由 `tools.js` 的注册表**自动生成**（`patch_round9.py` 解析 `TOOLS.push` 元数据），不手写、不维护第二份清单。
+
+### 12.4 本轮踩到的坑
+
+1. `sites_common.page()` 的返回值是**写入的文件路径**，不是 HTML。`/tools/` 目录页因此被写成了一个 47 字节的路径字符串——发现后改为「page() 已写盘，调用方只读回校验」。
+2. DOM 桩环境下，工具卡片的 `build()` 里读 `<select>.value` 得到空串，导致单位换算 `Object.keys(undefined)`。修法是让工具自己兜底（`UNITS[catEl.value] || UNITS.len`），而不是把桩写得更假。
+3. `main.js` 与 `sub.js` 曾各自绘制 `#sky` 星空，两套 `requestAnimationFrame` 同时跑。现在星空、主题、命令面板统一归 `sub.js`，`main.js` 只留 Releases 数据渲染。
