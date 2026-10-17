@@ -3,56 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="xkmyth 星空神话 发行仓库 —— 浏览器、云盘客户端、安卓 APK、定制 Win11 系统镜像，全部直连下载。">
-<title>发行仓库 · 星空神话 xkmyth</title>
+<meta name="theme-color" content="#04060f">
+<meta name="description" content="xkmyth 星空神话下载中心 —— 浏览器、云盘客户端、安卓 APK、定制 Win11 系统镜像，全部直连下载。版本号、体积与下载次数实时读取自 GitHub Releases。">
+<meta name="keywords" content="xkmyth,星空神话,下载,浏览器,私有云盘,安卓APK,Win11定制系统,ISO">
+<meta property="og:title" content="下载中心 · 星空神话 xkmyth">
+<meta property="og:description" content="浏览器 · 云盘 · 安卓端 · 定制系统镜像，一站直取，版本实时同步 GitHub Releases">
+<meta property="og:url" content="https://xkmyth.github.io/xkmyth/">
+<meta property="og:type" content="website">
+<title>下载中心 · 星空神话 xkmyth</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='45' r='16' fill='%23fcd34d'/><path d='M50 20v50M25 45h50' stroke='%23fcd34d' stroke-width='6'/><ellipse cx='50' cy='66' rx='26' ry='8' stroke='%239ae3ff' stroke-width='3' fill='none' transform='rotate(-15 50 66)'/></svg>">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<canvas id="sky"></canvas>
-<header class="nav"><div class="nav-inner">
-  <div class="brand"><span class="brand-star">★</span> xkmyth</div>
-  <nav>
-    <a href="https://xkmyth.github.io/">主站</a>
-    <a href="https://xkmyth.github.io/Timarsky/">工具站</a>
-    <a href="https://xkmyth.github.io/about/">关于</a>
-    <a href="https://github.com/xkmyth/xkmyth/releases" target="_blank" rel="noopener">Releases</a>
-  </nav>
-</div></header>
+<canvas id="sky" aria-hidden="true"></canvas>
 
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="https://xkmyth.github.io/"><span class="brand-star">★</span> xkmyth</a>
+    <nav aria-label="站点导航">
+      <a href="https://xkmyth.github.io/">主站</a>
+      <a href="https://xkmyth.github.io/Timarsky/">工具站</a>
+      <a href="https://xkmyth.github.io/about/">关于</a>
+      <a href="https://github.com/xkmyth/xkmyth/releases" target="_blank" rel="noopener">Releases ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
 <section class="hero">
-  <h1 class="hero-title">发行 <span class="gold">仓库</span></h1>
-  <p class="hero-sub">客户端 · APK · 定制系统镜像</p>
-  <p class="hero-desc">这里是 xkmyth 生态所有安装包的集散地。小文件走 GitHub Releases（全球 CDN 直连），大文件走私有云盘直链。</p>
+  <p class="hero-kicker">xkmyth · 星空神话</p>
+  <h1 class="hero-title">下载<span class="gold">中心</span></h1>
+  <p class="hero-sub">浏览器 · 云盘 · 安卓端 · 定制系统镜像</p>
+  <p class="hero-desc">所有安装包一站直取：小文件走 GitHub Releases 全球 CDN，大文件走私有云盘直链。页面上展示的版本号、体积与下载次数由 GitHub 实时读取，永远显示最新发行，不用再手改版本号。</p>
   <div class="hero-actions">
-    <a class="btn primary" href="https://github.com/xkmyth/xkmyth/releases" target="_blank" rel="noopener">查看全部 Release</a>
-    <a class="btn ghost" href="https://xkmyth.github.io/">回到主站</a>
+    <a class="btn primary" href="#downloads">立即下载 ⬇</a>
+    <a class="btn ghost" href="https://github.com/xkmyth/xkmyth/releases" target="_blank" rel="noopener">全部版本 ↗</a>
   </div>
+  <p class="hero-note" id="releaseNote">正在读取最新版本…</p>
 </section>
 
-<section class="section">
-  <h2 class="sec-title">立即 <span class="gold">下载</span></h2>
-  <p class="sec-sub">链接永远指向最新版本（latest）</p>
+<section class="section" id="downloads">
+  <h2 class="sec-title">立即<span class="gold">下载</span></h2>
+  <p class="sec-sub">链接固定指向最新版本（latest），无需手动换链</p>
   <div class="dl-grid">
-    <div class="dl-card"><div class="dl-name">🧭 xkmyth 浏览器（Windows）</div><div class="dl-desc">Windows 64 位 · v4.0.2 · 免安装绿色版</div>
-      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-browser-win-x64.zip" target="_blank" rel="noopener">下载 ⬇</a></div>
-    <div class="dl-card"><div class="dl-name">☁️ xkmyth 云盘客户端（Windows）</div><div class="dl-desc">Windows 64 位 · 免安装绿色版</div>
-      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-cloud-win-x64.zip" target="_blank" rel="noopener">下载 ⬇</a></div>
-    <div class="dl-card"><div class="dl-name">📱 xkmyth 浏览器 APK</div><div class="dl-desc">Android · v2.0.0 · 星空主页 · 可自定义快捷方式</div>
-      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-browser.apk" target="_blank" rel="noopener">下载 ⬇</a></div>
-    <div class="dl-card"><div class="dl-name">📱 xkmyth 云盘 APK</div><div class="dl-desc">Android · 下载进度条 · 轻量客户端</div>
-      <a class="btn small" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-cloud.apk" target="_blank" rel="noopener">下载 ⬇</a></div>
-    <div class="dl-card"><div class="dl-name">🌌 xkmyth 定制系统镜像</div><div class="dl-desc">Win11 25H2 定制 ISO · 约 8GB · 云盘直取</div>
-      <a class="btn small" href="https://xkmyth.dynv6.net:5212/" target="_blank" rel="noopener">云盘获取 ↗</a></div>
+
+    <article class="dl-card" data-asset="xkmyth-browser-win-x64.zip">
+      <div class="dl-head"><div class="dl-ico">🧭</div><div><h3>xkmyth 浏览器</h3><p>Electron 内核 · 星空 UI · 无边框多标签</p></div></div>
+      <div class="dl-meta">
+        <span class="badge win">Windows x64</span>
+        <span class="badge">免安装绿色版</span>
+      </div>
+      <div class="dl-info">
+        <span class="dl-ver" data-field="ver">v—</span>
+        <span class="dl-size" data-field="size">—</span>
+        <span class="dl-count" data-field="count">—</span>
+      </div>
+      <a class="btn small primary" data-field="link" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-browser-win-x64.zip" rel="noopener">下载 ⬇</a>
+    </article>
+
+    <article class="dl-card" data-asset="xkmyth-cloud-win-x64.zip">
+      <div class="dl-head"><div class="dl-ico">☁️</div><div><h3>xkmyth 云盘客户端</h3><p>私有云盘 · 下载进度条 · WebDAV 备份</p></div></div>
+      <div class="dl-meta">
+        <span class="badge win">Windows x64</span>
+        <span class="badge">免安装绿色版</span>
+      </div>
+      <div class="dl-info">
+        <span class="dl-ver" data-field="ver">v—</span>
+        <span class="dl-size" data-field="size">—</span>
+        <span class="dl-count" data-field="count">—</span>
+      </div>
+      <a class="btn small primary" data-field="link" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-cloud-win-x64.zip" rel="noopener">下载 ⬇</a>
+    </article>
+
+    <article class="dl-card" data-asset="xkmyth-browser.apk">
+      <div class="dl-head"><div class="dl-ico">📱</div><div><h3>xkmyth 浏览器 APK</h3><p>星空主页 · 自定义快捷方式 · 轻量无广告</p></div></div>
+      <div class="dl-meta"><span class="badge apk">Android</span></div>
+      <div class="dl-info">
+        <span class="dl-ver" data-field="ver">v—</span>
+        <span class="dl-size" data-field="size">—</span>
+        <span class="dl-count" data-field="count">—</span>
+      </div>
+      <a class="btn small primary" data-field="link" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-browser.apk" rel="noopener">下载 ⬇</a>
+    </article>
+
+    <article class="dl-card" data-asset="xkmyth-cloud.apk">
+      <div class="dl-head"><div class="dl-ico">📲</div><div><h3>xkmyth 云盘 APK</h3><p>下载进度条 · 轻量客户端</p></div></div>
+      <div class="dl-meta"><span class="badge apk">Android</span></div>
+      <div class="dl-info">
+        <span class="dl-ver" data-field="ver">v—</span>
+        <span class="dl-size" data-field="size">—</span>
+        <span class="dl-count" data-field="count">—</span>
+      </div>
+      <a class="btn small primary" data-field="link" href="https://github.com/xkmyth/xkmyth/releases/latest/download/xkmyth-cloud.apk" rel="noopener">下载 ⬇</a>
+    </article>
+
+    <article class="dl-card" data-iso="true">
+      <div class="dl-head"><div class="dl-ico">🌌</div><div><h3>xkmyth 定制系统镜像</h3><p>Win11 25H2 深度定制 · 星空主题 · 装机即用</p></div></div>
+      <div class="dl-meta">
+        <span class="badge iso">ISO · 约 8GB</span>
+        <span class="badge">云盘直取</span>
+      </div>
+      <div class="dl-info">
+        <span class="dl-ver">体积超 GitHub 附件上限</span>
+        <span class="dl-size" data-field="size">走私有云盘</span>
+        <span class="dl-count">—</span>
+      </div>
+      <a class="btn small ghost" href="https://xkmyth.dynv6.net:5212/" target="_blank" rel="noopener">云盘获取 ↗</a>
+    </article>
+
   </div>
+  <p class="sec-foot" id="assetNote"></p>
 </section>
 
-<footer class="foot"><div class="foot-inner">
-  <div class="foot-brand"><span class="brand-star">★</span> xkmyth</div>
-  <p>你的浏览器 · 你的云盘 · 你的系统</p>
-  <p class="foot-links"><a href="https://xkmyth.github.io/">主站</a> · <a href="https://github.com/xkmyth" target="_blank" rel="noopener">GitHub</a></p>
-  <p class="foot-copy">© 2026 星空神话 xkmyth · 仅供学习交流</p>
-</div></footer>
+<section class="section alt" id="history">
+  <h2 class="sec-title">版本<span class="gold">历史</span></h2>
+  <p class="sec-sub">最近发布，实时读取自 GitHub Releases</p>
+  <div class="rel-list" id="releaseList" aria-live="polite"><p class="muted">正在读取…</p></div>
+</section>
+
+<section class="section" id="notes">
+  <h2 class="sec-title">使用<span class="gold">说明</span></h2>
+  <div class="note-grid">
+    <div class="note-card">
+      <div class="note-ico">🛰️</div>
+      <h3>大文件走云盘</h3>
+      <p>Win11 定制 ISO（约 8GB）超过 GitHub 附件大小上限，统一走私有云盘直链：<a href="https://xkmyth.dynv6.net:5212/" target="_blank" rel="noopener">xkmyth.dynv6.net:5212</a>。</p>
+    </div>
+    <div class="note-card">
+      <div class="note-ico">🔐</div>
+      <h3>校验与安全</h3>
+      <p>下载后建议核对文件大小与页面显示一致。Windows 客户端为免安装绿色版，首次运行如遇 SmartScreen 提示，请选择「仍要运行」。</p>
+    </div>
+    <div class="note-card">
+      <div class="note-ico">📜</div>
+      <h3>学习交流</h3>
+      <p>本生态所有内容仅供学习交流，请勿用于商业用途；系统镜像不含任何激活破解。遇到问题请到 <a href="https://github.com/xkmyth/xkmyth/issues" target="_blank" rel="noopener">Issues</a> 反馈。</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand"><span class="brand-star">★</span> xkmyth</div>
+    <p>你的浏览器 · 你的云盘 · 你的系统</p>
+    <p class="foot-links">
+      <a href="https://xkmyth.github.io/">主站</a> ·
+      <a href="https://xkmyth.github.io/Timarsky/">工具站</a> ·
+      <a href="https://xkmyth.github.io/about/">关于</a> ·
+      <a href="https://github.com/xkmyth" target="_blank" rel="noopener">GitHub</a>
+    </p>
+    <p class="foot-copy">© <span id="year">2026</span> 星空神话 xkmyth · 仅供学习交流</p>
+  </div>
+</footer>
+
 <script src="main.js"></script>
 </body>
 </html>

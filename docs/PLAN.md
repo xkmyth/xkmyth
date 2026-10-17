@@ -1,0 +1,130 @@
+# PLAN · xkmyth 生态整体改版规划（v1）
+
+> 制定：a1 · 2026-10-17
+> 状态：M1 执行中
+> 本文档是「详细可执行规划」，每个里程碑都有改动清单与验收标准。完成后在 [ROADMAP 状态](#roadmap-状态) 打勾。
+
+---
+
+## 1. 背景与目标
+
+xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘、安卓端、定制 Win11 系统，配套 4 个 GitHub Pages 静态站。当前状态：**能跑，但散**。页面写死版本号、四站视觉不统一、三份 CSS 复制粘贴、无任何多 agent 协作设施。
+
+本次改版目标（按优先级）：
+
+1. **修正确性**：版本号与 Releases 永远一致（数据驱动，不再手改）。
+2. **修协作**：三个 AI agent 互不可见 → 铺好黑板、信箱、盲道（COORDINATION / Issues / 分支保护）。
+3. **修视觉**：四站统一设计系统，美观度整体上一个台阶。
+4. **修工程**：CI 校验、发布脚本、决策留痕。
+5. **提建议**：为后续演进预留清单（第 8 节）。
+
+## 2. 现状盘点（2026-10-17 实测）
+
+| 仓库 | 定位 | 文件 | 问题 |
+| --- | --- | --- | --- |
+| xkmyth/xkmyth | 下载中心 | index 4.1KB / style 6.1KB / main 2.0KB | 版本号写死（v4.0.2 vs release v1.0.0）；样式旧 |
+| xkmyth.github.io | 主站 | index 8.2KB / style 6.0KB / main 2.0KB | 同写死版本；hero-meta 与 Releases 脱节 |
+| Timarsky | 工具站 | index 115KB 单文件 / style 8.3KB / main 1.9KB / script 3.0KB | 单文件 2876 行难维护；视觉独立于主站 |
+| about | 关于页 | index 6.0KB / style 6.0KB / main 2.0KB | 同上 |
+
+全局问题：0 issue / 0 PR / 0 分支 / 0 CI / 单作者直推；`style.css` 6009B 与 `main.js` 1956B 在三仓字节级复制；Releases 仅 v1.0.0（2026-08-24），资产 4 个共 247MB，无 SHA256 校验值。
+
+## 3. 设计系统规范（四站统一）
+
+### 3.1 色彩
+
+| 令牌 | 值 | 用途 |
+| --- | --- | --- |
+| `--bg0` | `#04060f` | 页面底色（深空） |
+| `--bg1` | `#0a1226` | 渐变底色 |
+| `--ink` | `#eaf2ff` | 主文字 |
+| `--muted` | `#8fa3c0` | 次级文字 |
+| `--gold` | `#fcd34d` | 品牌金（强调、标题渐变） |
+| `--gold-deep` | `#f0b429` | 金色渐变终点 |
+| `--ice` | `#9ae3ff` | 冰蓝（kicker、链接、徽章） |
+| `--line` | `rgba(255,255,255,.08)` | 描边 |
+
+### 3.2 组件
+
+- **玻璃卡片**：`rgba(255,255,255,.045)` 底 + 1px `--line` 描边 + `backdrop-filter: blur(8px)` + hover 上浮 5px。
+- **按钮**：主按钮金色渐变（深字）、次按钮描边幽灵款；胶囊形 999px。
+- **徽章 badge**：胶囊形，按平台着色（win 金 / apk 绿 / iso 紫）。
+- **标题**：金色渐变文字（`background-clip: text`），主标题 clamp(42px,8vw,76px)。
+- **导航**：sticky + 半透明模糊；四站同一组链接（主站/下载中心/工具站/关于/Releases）。
+
+### 3.3 动效与无障碍
+
+- 星空背景：DPR 上限 2；`visibilitychange` 时暂停；`prefers-reduced-motion` 时彻底关闭动画。
+- 全局 `:focus-visible` 金色描边；`::selection` 金色半透明。
+- 移动端（≤640px）单列布局、导航折行。
+
+## 4. 分仓改造方案
+
+### 4.1 xkmyth/xkmyth（下载中心）— 核心仓，已执行
+
+| 文件 | 改动 | 验收 |
+| --- | --- | --- |
+| index.html | 重写：语义化结构、OG meta、5 张下载卡（含 data-asset 钩子）、版本历史区、使用说明区、页脚年份动态化 | HTML 解析无错；本地资源引用全部存在 |
+| style.css | 全新设计系统（§3） | 四站视觉一致；移动端单列 |
+| main.js | 星空动画（DPR/暂停/reduced-motion）+ Releases 数据渲染（localStorage 缓存 10min、textContent 防 XSS、失败降级） | `node --check` 通过；断网时静态直链仍可用 |
+| README.md | 重写：结构、协作约定、发布表 | — |
+| COORDINATION.md / docs/DECISIONS.md / docs/PLAN.md | 协作三件套 | — |
+| .github/ | Issue 模板（handoff/decision/bug）+ PR 模板 + CI workflow | workflow 语法有效 |
+| .nojekyll | 新增空文件，跳过 Jekyll | Pages build 成功 |
+
+**CI（.github/workflows/check.yml）**：push/PR 触发，两件套——① `node --check main.js`；② 链接检查（提取页面内相对链接与引用，确认目标文件存在；对外链发 HEAD 请求，非 2xx 记警告不阻断）。零第三方依赖，用 PowerShell/Node 内建能力。
+
+### 4.2 xkmyth.github.io（主站）
+
+- 换肤：style.css 替换为 §3 设计系统（保留其生态卡片/特性/安装步骤的类名体系，微调排版）。
+- main.js：替换为 DPR/暂停/reduced-motion 版星空动画；新增「从 Releases API 读最新版本」更新 hero-meta。
+- index.html：删除写死的 `v4.0.2`（改为 `<span id="latestVer">`），补 OG 完整性、导航统一为四站链接。
+- 新增 COORDINATION.md / docs/DECISIONS.md（引用下载中心版）/.nojekyll / .github 模板。
+
+### 4.3 about（关于页）
+
+- 换肤 + 星空动画升级，导航统一。内容保留「生态五件套 / 仓库 / 联系」三节，重排文案。
+- 新增 COORDINATION.md / .nojekyll。
+
+### 4.4 Timarsky（工具站）
+
+- **零改动 index.html 的 2876 行内容数据**（风险控制：数据不动，只动皮）。
+- style.css 按 §3 设计系统重写，但**保留全部既有类名**（`.header/.banner/.module/.tool-grid/.tool-card/.tool-content/.footer` 及浅色模式 `.light` 前缀），保证不破坏 723 个卡片。
+- main.js 星空动画升级为 DPR/暂停/reduced-motion 版；保留 `generateName/showFortune/generateEmoji`。
+- script.js：复制功能增加 `execCommand` 降级（http 环境剪贴板 API 不可用时）；搜索框防抖保留。
+- 顶栏 logo 链接与导航统一为四站链接；新增 COORDINATION.md / .nojekyll。
+
+## 5. 协作基建（全生态）
+
+1. 四仓根目录 `COORDINATION.md`（黑板）：分工表、进行中/锁、交接模板、禁入区。
+2. Issues 当信箱：label 集 `handoff` / `decision` / `blocked` / `agent:a1|a2|a3`，Issue 模板三张。
+3. `main` 分支保护（四仓）：必须 PR、不强制 review（D4）。
+4. commit 前缀 `[a1]/[a2]/[a3]`；PR 模板自带开工三连检查项。
+5. `docs/DECISIONS.md` 决策日志，只追加不修改。
+
+## 6. 发布规范（给主人的操作手册）
+
+- 发版：GitHub Releases 新建 tag（语义化 `vX.Y.Z`），上传资产时文件名**必须**与下载页 `data-asset` 一致：
+  `xkmyth-browser-win-x64.zip`、`xkmyth-cloud-win-x64.zip`、`xkmyth-browser.apk`、`xkmyth-cloud.apk`。
+- 每个资产在 Release 说明里附 SHA256（`certutil -hashfile <file> SHA256`）。
+- 页面版本号无需再改——自动跟随最新 tag。
+
+## 7. Roadmap 状态
+
+- [x] M1 下载中心改版（页面/脚本/文档/CI 全部落地）— 待推送
+- [x] M2 协作基建落仓（COORDINATION + 模板 + label + 分支保护）— 待 API 执行
+- [ ] M3 主站换肤 + 版本动态化
+- [ ] M4 about 换肤
+- [ ] M5 Timarsky 换肤（类名兼容重构）
+- [ ] M6 全生态验收（四站可打开、链接可达、无死引用）
+
+## 8. 建议清单（后续可选，按性价比排序）
+
+1. **自定义域名 + HTTPS**（xkmyth.xxx）：品牌、SEO 与直链稳定性收益最大。
+2. **Release 资产加 SHA256 校验值**：分发可信度直接提升（零成本，见 §6）。
+3. **Timarsky 数据化重构**：115KB 单文件 → `tools-data.js` + 渲染器，人改数据、机器渲染；顺手加每卡片「快捷键搜索」。工作量中等。
+4. **共享静态资源**：四仓 CSS/JS 抽成公共组件发布在 xkmyth.github.io 上，其余站引用（改一处全站生效，但牺牲离线独立性与部署原子性，需权衡）。
+5. **细粒度 PAT**：当前 `ghp_` 万能钥匙应尽早换成 Fine-grained PAT（仅限 4 个仓库、只读+contents+issues），三个 agent 一人一把，出事可单吊销。
+6. **下载统计与 CDN 加速**：GitHub 直连在国内波动大，可加 jsDelivr/Cloudflare Pages 镜像（`latest` 直链不变，多一条备用链路）。
+7. **国际化**：至少英文 README；站点双语切换成本中等。
+8. **校验和页面**：公开 SHA256SUMS 文件 + 页面展示，配 §6 落地。
