@@ -218,3 +218,8 @@ CI 与本地检查器对 `/docs/` 这类根绝对路径，按页面最近的 `.g
 ## D34 · 改静态资源必须改 SW 版本号
 
 `sw.js` 的 `VER` 带日期与后缀（如 `xkmyth-2026-10-18b`），`activate` 时按版本号删旧缓存。只改 CSS/JS 不改 `VER`，回访用户会长时间拿到旧资源（stale-while-revalidate 只保证「下次」更新）。因此每一轮部署脚本里，资源有改动就把 `VER` 递增并顺手复查 `CORE` 清单。
+
+
+## D35 · 索引与站点数据一律由 finalize_site.py 收口
+
+顺序固定：`refresh_stats.py` → `seo_round.py` → `enrich_search.py`，最后断言「条数 ≥ 200 且关键词最长 > 100」。理由：`seo_round.py` 会整份重建 `search-index.json`，如果它在补词之后跑，关键词会被静默覆盖（实测 `kw` 从 240 字符掉到 54，搜索质量下降但没有任何报错）。把顺序固化进一个入口脚本，比在每轮部署前靠记忆排列可靠。
