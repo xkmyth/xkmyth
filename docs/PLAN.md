@@ -291,3 +291,39 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 | xkmyth.github.io | #7（极光层） | `ab9d06aa1df57ad517b88d2811f01bda9037fcaf` |
 | xkmyth/xkmyth | #9（紧凑 Hero） | `f8e0a11ad5a71d143156fe942c9d64ab63dbeb36` |
 | xkmyth/about | #5（紧凑 Hero） | `c91b17991b1671bfd308b2f44a55039aedc56046` |
+
+
+## 14. 第七轮：工具详情页 · PWA · SEO · 可访问性
+
+### 14.1 139 个工具详情页
+- 路径 `/Timarsky/tools/<id>/`，共 139 页（6257–6609 字节/页），`<html data-tool="<id>">` 驱动 `tools.js` 的单工具模式（只渲染这一个工具，其余 `return`）。
+- 每页结构：面包屑 → 标题区（eyebrow / h1 / 一句 lead / 复制链接 + 回列表）→ 左栏「就在这儿用」（真工具本体）+ 右栏四卡（什么时候用 / 怎么用 / 长得什么样 / 注意）+ 同类工具 + 上下一个。
+- 结构化数据：`SoftwareApplication` + `BreadcrumbList`，canonical 与 OG 逐页生成；`/Timarsky/sitemap.xml` 141 条。
+- 文案手写分批：`tool_docs_a.py`(35) / `tool_docs_b.py`(56) / `tool_docs_c.py`(29) / `tool_docs_d.py`(19)，每条含 `why` 场景、`ex` 输入→输出、`tip` 坑。
+
+### 14.2 PWA（可安装 · 可离线）
+- `/manifest.webmanifest`（全域）+ `/Timarsky/tools/manifest.webmanifest`（工具箱独立应用，`scope` 限 `/Timarsky/tools/`）。
+- `/sw.js`：安装时预缓存 20 个核心资源；导航请求 network-first（断网回缓存、再断回 404）；静态资源 stale-while-revalidate；跨域与 `/api/` 直接放行。版本号 `xkmyth-2026-10-18`。
+- 图标：`icons/icon-192.png`、`icon-512.png`、`icon-maskable-512.png`、`apple-touch-icon.png`、`favicon.png`、`icons/og-1200x630.png`（Pillow 绘制：竖向金渐变的星 + 高斯柔光，替代早期同心多边形造成的拉丝环）。
+- 注册与安装引导在 `sub.js`（`xkmyth-pwa` 段）：仅 https/localhost、`?nosw=1` 可关；`beforeinstallprompt` 时在导航右侧长出「安装」按钮。
+
+### 14.3 SEO
+- `/sitemap.xml` 190 条（主站 47 页 + 404 + 工具站 2 + 139 详情页 + about + 发行仓），`/Timarsky/sitemap.xml` 141 条；`robots.txt` 同时列出两份。
+- `/search-index.json` 189 条（页面 50 + 工具 139），命令面板与 `/search/` 共用同一份。
+- 主站 `/tools/` 目录页的 139 个链接从锚点改成详情页真链接；全站补 `theme-color`（深/浅两套）、`apple-touch-icon`、`og:image` + `twitter:card`。
+
+### 14.4 可访问性与性能
+- 190 个页面统一加「跳到主内容」链接、`#main` 锚点 + `tabindex="-1"`、`:focus-visible` 金色描边、装饰画布 `aria-hidden="true"`、外链 `rel="noopener noreferrer"`、`<meta name="color-scheme">`。
+- `prefers-reduced-motion` 下动画时长归零；星空/极光/命令面板统一由 `sub.js` 提供，页面不再各自带一份。
+
+### 14.5 校验
+- `verify_all.py`：发行仓 1 / 主站 47 / 关于 1 / 工具站 141 页，0 错误；工具 139、目录页链接 0 缺失、详情页 0 缺失。
+- `test_single_mode.js`：9 个代表工具（b64/ts/calc/mdtable/tts/vlsm/chmod/img2b64/totp）单工具模式 9/9 PASS。
+- `check_detail_css.py`：详情页 32 个类名在 `tools.css` 中 0 缺失。
+- `audit_a11y.py`：0 个页面缺 `#main`，0 条外链缺 `rel`。
+
+### 14.6 踩坑
+- 详情页内联脚本调用 `window.toast` —— `tools.js` 的 `toast` 是闭包内私有变量，页面只有 `#toast` 元素；改成页面自带 `tip()` 写 `#toast`。
+- 单工具模式测试里 `$()` 走 `document.querySelector`，桩必须按 `#id` 返回**同一个**元素，否则卡片被挂到孤儿节点上、断言 0 卡片。
+- `verify_all.py` 原先用 `#tool-<id>` 判目录页链接，改链详情页后误报 139 处，改成「详情页链接或锚点任一存在」。
+- 详情页自带 `twitter:card: summary`，`pwa_files.py` 又补了一条 `summary_large_image`：重复但后者生效，后续若清理以 `summary_large_image` 为准。
