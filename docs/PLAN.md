@@ -327,3 +327,39 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 - 单工具模式测试里 `$()` 走 `document.querySelector`，桩必须按 `#id` 返回**同一个**元素，否则卡片被挂到孤儿节点上、断言 0 卡片。
 - `verify_all.py` 原先用 `#tool-<id>` 判目录页链接，改链详情页后误报 139 处，改成「详情页链接或锚点任一存在」。
 - 详情页自带 `twitter:card: summary`，`pwa_files.py` 又补了一条 `summary_large_image`：重复但后者生效，后续若清理以 `summary_large_image` 为准。
+
+
+## 15. 第八轮：站务日志独立成页 + 全站结构化数据（2026-10-18）
+
+### 15.1 站务日志
+`/blog/` 原来把四篇长文塞在一个列表页里，既搜不到也不便引用。现在一篇一页：
+
+| 路径 | 主题 | 结构 |
+| --- | --- | --- |
+| `/blog/static-first/` | 为什么整个生态是静态站 | 日期徽标 + 正文 + 上下篇 + 相关文档 |
+| `/blog/tools-not-decoration/` | 139 个工具怎么保证不是摆设 | 同上 |
+| `/blog/ci-gbk-incident/` | CI 抓到的一次真实事故 | 同上 |
+| `/blog/apps-same-bottom-line/` | 十个应用共用一条底线 | 同上 |
+
+列表页 `/blog/` 保留摘要与日期，标题改成指向独立页；新增 `/blog/feed.xml`（RSS 2.0，四篇，`atom:link` 自引用），页面 `<head>` 里挂 `rel="alternate"` 订阅链接。
+
+### 15.2 结构化数据
+194 个页面统一补齐 `canonical` + `application/ld+json`，按页面类型选 schema：
+
+- 工具详情页（`<html data-tool="…">`）→ `SoftwareApplication`（含 `offers.price = 0`、`isPartOf` 工具箱）+ `BreadcrumbList`
+- 软件库应用页 → `SoftwareApplication` + `BreadcrumbList`
+- 站务日志文章 → `BlogPosting`（`author` / `publisher` / `datePublished`）+ `BreadcrumbList`
+- 其余 → `WebPage` + `isPartOf: WebSite` + `publisher: Organization`
+
+首页不出面包屑（自己不指向自己）。`og:type`、`og:image`（1200×630）、`twitter:card` 沿用第七轮的口径。
+
+### 15.3 索引口径
+`sitemap.xml` 194 条、`search-index.json` 193 条（页面 50 + 工具 139 + 四个外部仓入口）、`robots.txt` 双 sitemap（主站 + 工具站）。
+
+### 15.4 踩坑
+1. **URL 不能拿路径拼**：第一版 `page_url()` 把 `os.path.relpath` 的结果往仓库目录上怼，结果 `canonical` 变成 `D:\xkmyth-eco\xkmyth.github.iocontact/`。改成 `url_of(base, rel)` 只吃「URL 前缀 + 相对路径」（D22）。
+2. **面包屑 URL 累加手滑**：逐段累加时把最终页的 URL 写进了中间层（`/Timarsky/tools/vlsm/` 冒充 `/Timarsky/tools/`），重写为 `acc = acc + seg + "/"`。
+3. **h1 取词不要插空格**：`re.sub(r"<[^>]+>", " ", html)` 会把 `xk<span>myth</span>` 变成 `xk myth`，取纯文本要用空串替换。
+
+### 15.5 校验
+`verify_all.py`：发行仓 1 + 主站 51 + 关于 1 + 工具站 141 = 194 页，错误 0；JSON-LD 194 处全部可解析；`href/src` 里出现盘符 0 处。
