@@ -612,3 +612,39 @@ finalize_site.py
 ### 23.4 目录页的「最近用过」
 
 `/tools/` 顶部有一行「最近用过」：点开某个工具详情页时，把 `{id, name}` 记进 `localStorage['xk-recent-tools']`（最多 6 条，去重后置顶），下次回到目录页就排成一行小胶囊。逻辑写进了目录页生成器（`_tools/add_batch3.py`），所以重新生成目录也不会丢。样式在 `sub.css` 的 `.recent-tools` 段。对应 D37。
+
+## 24 · 骨架重生成事故：一次改动冲掉五页内容
+
+### 24.1 发生了什么
+
+第十九轮为了修 `/software/` 的描述（应用从 10 个变 11 个），重跑了一次 `gen_sites_c.py`。这个脚本负责生成 19 个页面的**骨架**，于是它顺手把这些页面此后几轮注入的内容全写回去了：
+
+| 页面 | 被冲掉的内容 |
+| --- | --- |
+| `/blog/` | 后四篇文章的卡片、RSS 订阅入口（退回 4 篇） |
+| `/benchmark/` | 「实测体积」整节（含 gzip 对比表） |
+| `/lab/` | 动效实验室入口卡片 |
+| `/ecosystem/` | 工具合集入口 |
+| `/press/` | 应用数与工具数的中文口径 |
+
+发现靠的是线上逐页断言：博客列表只数出 4 张卡，而 feed 里有 8 条。
+
+### 24.2 修法：把「生成骨架」和「注入内容」分开
+
+- 新增 `_tools/rebuild_content.py`：按固定顺序重放所有内容注入 —— benchmark 实测表 → lab 卡片 → collections 链接 → 博客列表 → 应用计数。每步幂等。
+- 新增 `_tools/blog_index.py`：博客列表不再手工插卡，改成扫描 `/blog/*/index.html` 按日期倒序生成（标题、日期、摘要、共 N 篇、RSS 链接全自动）。
+- `finalize_site.py` 扩成唯一收口入口：`rebuild_content` → `refresh_stats` → `seo_round` → `enrich_search` → 断言。
+
+### 24.3 另一个隐藏更深的 bug：`.git` 子串判断
+
+扫描类脚本里写的是 `if ".git" in base: continue`。可站点根目录叫 `xkmyth.github.io` —— 里面就含 `.git` 四个字符（`.github.io` 开头）。于是**整个主站被跳过**，脚本却打印「0 处」：
+
+- `og_meta.py` 以为补完了 OG 标签，实际主站 57 页一个没动；
+- `fix_counts3.py` 以为把 139 改成了 160，实际主站没改；
+- `scan_counts_final.py` 报「十个自研应用 0 处」，而 `/press/` 里明明有一处。
+
+统一改成 `if os.path.basename(base) == ".git": continue`，并把这一条写进 D39。
+
+### 24.4 验收
+
+重跑后：`/press/` 一句话改「十一个离线可用的自研 Web 应用、一百六十个在线工具」；主站 57 页补齐 `og:type/site_name/title/description/url/image`；博客列表 8 篇且带 feed 链接；`/benchmark/` 与 `/lab/` 恢复；`verify_all.py` 四仓 0 错误；索引 221 条、sitemap 222 条。
