@@ -206,3 +206,15 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 **C. 零星**：`#tgrid` 空守卫；changelog 长 Release 正文折叠到 480 字符；`.tl-item.dim` 补 `opacity:.72`（原来只有圆点变色，JS 的「旧版本淡化」意图丢失）；`sub.js` 的 `data-copy` 选择器加 try/catch（非法选择器会抛 SyntaxError）。
 
 **未修（记录在案）**：`sub.js` 的 `data-copy` 复制委托目前没有任何页面使用（死代码，无副作用）；`tools.js` 的 `humanBytes()` 未使用；复制按钮不区分错误态文本。
+
+## 11. 第三轮：子站矩阵与工具箱扩容（2026-10-17）
+
+| 项目 | 结果 |
+| --- | --- |
+| 主站子站 | 14 个页面（含 `/docs/install/`、`/docs/verify/`、`/docs/troubleshoot/`、`/support/report/` 嵌套目录） |
+| 在线工具 | 30 个（11 → 30），纯前端 + WebCrypto，无外部依赖 |
+| 搜索 | 工具站主站与工具箱均为自绘控件：`/` 聚焦、`Esc` 清空、`Enter` 跳首个结果、结果计数、空状态 |
+| CI | 根绝对路径按站点根解析，跨站引用聚合为一条警告 |
+| 首页 | 生态地图 15 卡 + 8 项锚点导航 + 统一 footer 地图，sitemap 21 条 |
+
+工具清单：时间戳、Base64、URL、JSON、文本统计、命名风格、SHA-1/256/512、密码生成、UUID、颜色、进制、Markdown、正则、diff、cron、单位换算、大小写、随机数、贷款、BMI、日期差、Unicode、JWT、时区、子网、调色板、图片转 Base64、文本清理、表达式计算器、CSV。
