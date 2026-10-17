@@ -219,7 +219,7 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 
 工具清单：时间戳、Base64、URL、JSON、文本统计、命名风格、SHA-1/256/512、密码生成、UUID、颜色、进制、Markdown、正则、diff、cron、单位换算、大小写、随机数、贷款、BMI、日期差、Unicode、JWT、时区、子网、调色板、图片转 Base64、文本清理、表达式计算器、CSV。
 
-## 12. 第四轮：软件库 / 46 站矩阵 / 139 工具（2026-10-17）
+## 12. 第四轮：软件库 / 46 站矩阵 / 160 工具（2026-10-17）
 
 哥这一轮的要求是「46 个自站、10 个自研软件、120 个在线工具、无敌的美观」，全部按最低要求之上交付。
 
@@ -229,8 +229,8 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 | 自研软件 | 10 | **10 个纯前端应用**，全部可真用、可离线、数据只留在本机 |
 | 在线工具 | 120 | **139 个**，9 大类，全部浏览器内计算，无上传、无外部依赖 |
 | 设计系统 | 美观 | `style.css` v2（17 段组件层）+ `sub.css` v2 + `software/app.css` 三层，深浅色主题、极光背景、命令面板 |
-| 搜索 | 好用 | `⌘K` / `Ctrl+K` / `/` 唤起命令面板，索引 186 条（47 页 + 139 工具） |
-| 校验 | 可信 | 4 仓 HTML 结构/锚点/引用 0 错误；139 个工具在 DOM 桩环境逐个构建 0 报错 |
+| 搜索 | 好用 | `⌘K` / `Ctrl+K` / `/` 唤起命令面板，索引 186 条（47 页 + 160 工具） |
+| 校验 | 可信 | 4 仓 HTML 结构/锚点/引用 0 错误；160 个工具在 DOM 桩环境逐个构建 0 报错 |
 
 ### 12.1 十个自研软件（`/software/<slug>/`）
 
@@ -244,7 +244,7 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 
 `/ecosystem/` 是全部入口的总表，`/search/` 是独立搜索页，`/stats/` 的数字由生成脚本现场统计（页数、体积），不是手写。
 
-### 12.3 139 个在线工具（9 类）
+### 12.3 160 个在线工具（9 类）
 
 编码 15 · 文本 22 · 时间 11 · 安全 9 · 数值 18 · 开发 27 · 计算 18 · 网络 11 · 文件 8。
 
@@ -295,7 +295,7 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 
 ## 14. 第七轮：工具详情页 · PWA · SEO · 可访问性
 
-### 14.1 139 个工具详情页
+### 14.1 160 个工具详情页
 - 路径 `/Timarsky/tools/<id>/`，共 139 页（6257–6609 字节/页），`<html data-tool="<id>">` 驱动 `tools.js` 的单工具模式（只渲染这一个工具，其余 `return`）。
 - 每页结构：面包屑 → 标题区（eyebrow / h1 / 一句 lead / 复制链接 + 回列表）→ 左栏「就在这儿用」（真工具本体）+ 右栏四卡（什么时候用 / 怎么用 / 长得什么样 / 注意）+ 同类工具 + 上下一个。
 - 结构化数据：`SoftwareApplication` + `BreadcrumbList`，canonical 与 OG 逐页生成；`/Timarsky/sitemap.xml` 141 条。
@@ -337,7 +337,7 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 | 路径 | 主题 | 结构 |
 | --- | --- | --- |
 | `/blog/static-first/` | 为什么整个生态是静态站 | 日期徽标 + 正文 + 上下篇 + 相关文档 |
-| `/blog/tools-not-decoration/` | 139 个工具怎么保证不是摆设 | 同上 |
+| `/blog/tools-not-decoration/` | 160 个工具怎么保证不是摆设 | 同上 |
 | `/blog/ci-gbk-incident/` | CI 抓到的一次真实事故 | 同上 |
 | `/blog/apps-same-bottom-line/` | 十个应用共用一条底线 | 同上 |
 
@@ -368,7 +368,7 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 ## 16. 第九轮：场景化合集 + 富结果结构化数据（2026-10-18）
 
 ### 16.1 工具合集 `/collections/`
-139 个工具按九类分好，但找工具时人想的是「我现在要干什么」。新增八组合集，每组按真实动手顺序排：
+160 个工具按九类分好，但找工具时人想的是「我现在要干什么」。新增八组合集，每组按真实动手顺序排：
 
 | 合集 | 工具 | 说明 |
 | --- | --- | --- |
@@ -406,3 +406,42 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 
 ### 16.6 校验
 `verify_all.py`：发行仓 1 + 主站 54 + 关于 1 + 工具站 141 = 197 页，错误 0；JSON-LD 全部可解析（含 FAQPage/HowTo/ItemList）；`sitemap.xml` 197 条、`search-index.json` 196 条。
+
+
+---
+
+## 18 · 第十一轮：工具箱扩到 160 个（batch3）
+
+### 18.1 这一轮加了什么
+
+| 分类 | 新增 | 工具 id |
+| --- | --- | --- |
+| 安全 | 4 | aesgcm（AES-GCM 加解密）、jwtgen（HS256 签发）、otpauth（认证器链接）、pwhash（PBKDF2 成本演示） |
+| 时间 | 3 | agecalc（周岁/下次生日）、workdays（工作日推算）、countdown（还剩几天） |
+| 网络 | 3 | ipv6cidr（IPv6 子网）、wol（魔术包）、urltemplate（模板填参） |
+| 数字 | 3 | bitshift（位运算视图）、bytesize（KiB/KB 换算）、percentile（分位数/IQR） |
+| 开发 | 4 | gitignore（生成规则）、envjson（.env ↔ JSON）、sqlinsert（CSV → INSERT）、magic（文件头识别） |
+| 文件 | 2 | b64file（base64 → 文件）、textfile（文本存文件，可加 BOM） |
+| 文本 | 2 | nato（NATO 拼读）、spellout（数字转英文单词） |
+
+合计 21 个 → 工具箱 139 → **160**，分类分布 time 14 / enc 15 / text 24 / safe 13 / num 21 / dev 31 / calc 18 / net 14 / file 10。
+
+### 18.2 流程（每批都照这个走）
+
+1. 写 `tools_batch3.js`（注册段风格与 batch2 一致，`t2def` / `t2text` / `t2form` 复用）；
+2. `add_batch3.py`：插到 `/* ---------------- 渲染 ---------------- */` 之前 → `node --check` → 正则解析注册表 → `tools_meta.json`；
+3. 目录页按注册表重建（带搜索框与 `data-search`），详情页由 `gen_toolpages.py` 重生成（160 个 + Timarsky sitemap 162 条）；
+4. `seo_round.py` 重建 `search-index.json`（218 条）与主站 `sitemap.xml`（219 条）；
+5. `refresh_stats.py` 重算 `/stats/` 与首页规模条；
+6. `smoke_tools.js` 全量跑一遍（160 个，0 真实问题），新增工具逐个跑 `test_single_mode.js <id>`（21/21 PASS）；
+7. `verify_all.py` + `scan_dup_id.py` 过闸。
+
+### 18.3 三条踩坑
+
+- **文案要一次补齐**：`gen_toolpages.py` 对缺文案的工具会回落成通用句子，看起来像模板。第三批 21 条 why/ex/tip 全部手写在 `tool_docs_e.py`。
+- **数字散落各处**：`139` 出现在页面文案、目录页、`sites_common.TOOL_COUNT`、`search-index`、sitemap 与文档里。这次用 `fix_counts3.py` 全站替换并 `scan_toolcount.py` 复查，避免只改到一半。
+- **历史文章不要改数字**：`/blog/tests-before-139-tools/` 标题里的 139 是当时的实况，改标题反而失真；正确做法是正文末尾加一条「补记」说明后来涨到 160。
+
+### 18.4 校验结果
+
+`verify_all.py`：发行仓 1 + 主站 55 + 关于 1 + 工具站 162 = **219 页，错误 0**；`scan_dup_id.py` 重复 id 0；`smoke_tools.js` 工具总数 160 / 真实问题 0；`test_single_mode.js` 新增 21 个全 PASS。
