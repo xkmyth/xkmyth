@@ -104,3 +104,15 @@ CI 与本地检查器对 `/docs/` 这类根绝对路径，按页面最近的 `.g
 **后果实例**：`/tools/` 一度变成 47 字节、内容是文件自身路径的页面，本地检查器因为「有 `<html>`？没有」——实际是读到了纯文本，`HTMLParser` 不报错但页面全空，很容易被漏掉。
 
 **防御**：生成脚本写完后立刻 `read()` 回读并断言长度/关键串；`verify_all.py` 检查目录页 139 条链接是否齐全。
+
+## D18 · 侧站复制主站样式，而不是另写一套
+
+**背景**：`xkmyth.github.io`、`xkmyth`、`about` 是三个独立 Pages 仓库，各自从自己仓库根目录发布，`<link rel="stylesheet" href="/style.css">` 在侧站会 404。
+
+**取舍**：
+
+1. 外链主站 CSS（`https://xkmyth.github.io/style.css`）——可行，但跨域缓存/CDN 抖动会让侧站在主站挂掉时裸奔，且 import 顺序难控。
+2. 侧站另写一套精简 CSS——省字节，但立刻出现三套设计语言，改一处要改三处。
+3. **复制主站 CSS + 追加兼容层**（采用）——每站 30–33 KB，可离线、可独立发布；一致性不靠记忆，靠 `class_cover.py`（页面出现但样式表没有定义的 class 直接报出来）和 `verify_all.py` 把守。
+
+**代价**：改设计系统时三份样式表要同步。目前的同步脚本是 `unify_sides.py` + `compat_sides.py` + `patch_footcol.py`，都是幂等的，重跑安全。

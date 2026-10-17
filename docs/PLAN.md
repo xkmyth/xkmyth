@@ -257,3 +257,37 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 1. `sites_common.page()` 的返回值是**写入的文件路径**，不是 HTML。`/tools/` 目录页因此被写成了一个 47 字节的路径字符串——发现后改为「page() 已写盘，调用方只读回校验」。
 2. DOM 桩环境下，工具卡片的 `build()` 里读 `<select>.value` 得到空串，导致单位换算 `Object.keys(undefined)`。修法是让工具自己兜底（`UNITS[catEl.value] || UNITS.len`），而不是把桩写得更假。
 3. `main.js` 与 `sub.js` 曾各自绘制 `#sky` 星空，两套 `requestAnimationFrame` 同时跑。现在星空、主题、命令面板统一归 `sub.js`，`main.js` 只留 Releases 数据渲染。
+
+## 13. 第五 / 六轮：侧站统一与极光层
+
+### 13.1 侧站不再有第二套设计系统
+
+`/xkmyth/`（发行仓）与 `/about/`（关于仓）此前仍是 v1 旧样式：自己一份 `style.css`、自己一套导航与页脚、自己一段星空。第五轮把它们对齐主站：
+
+- 复制主站 `style.css` / `sub.css` / `sub.js` 到两个仓（Pages 是三个独立仓库，无法跨仓引 CSS）；
+- 导航换成六项统一版（首页 / 软件库 / 工具 / Docs / 生态 / 状态，本页 `aria-current="page"`），页脚换成 `.foot-map` 四列；
+- `<body>` 后插 `<canvas id="sky">`，`main.js` 里重复的星空段删除（星空/主题/命令面板只归 `sub.js`）；
+- 补一层兼容样式（`.dl-*`、`.note-*`、`.rel-list`、`.badge.win/.apk/.iso`、`.guide-steps`），旧结构不改也能吃到 v2 的语言；
+- 导航自链接补尾斜杠（`/about` → `/about/`），避免 GitHub Pages 302 丢 `aria-current`。
+
+一致性靠脚本而不是靠自觉：`class_cover.py` 扫描页面里所有 `class="…"` 是否在样式表中有定义，两站从「缺 16 个 / 缺 2 个」跑到「缺 0 个」。
+
+### 13.2 极光层与紧凑 Hero
+
+`.hero-aurora` 在 v2 里早就定义了，但页面一直没插这个 div——所以只有 CSS 没有效果。第六轮补上：
+
+- 三个 Hero 各插 `<div class="hero-aurora" aria-hidden="true"></div>`（18 秒缓慢漂移，`prefers-reduced-motion` 下动画关闭）；
+- `.hero { isolation: isolate; overflow: hidden; }`——`isolation` 让 `z-index: -1` 的极光只落在 Hero 自己的层叠上下文里，不会钻到页面背景后面；
+- 新增 `.hero.compact`：侧站不再吃满 96vh，首屏就能看到下载卡片/生态入口。
+
+线上复验：`/` 13492B、`/xkmyth/` 11125B、`/about/` 8583B，三者都含 `hero-aurora`、`sub.js`、`#sky`、`foot-map`。
+
+### 13.3 合并记录
+
+| 仓库 | PR | merge sha |
+| --- | --- | --- |
+| xkmyth/xkmyth | #8（侧站 v2） | `b8a7eda81f7e4877eec28064992bc6132b788e84` |
+| xkmyth/about | #4（侧站 v2） | `02e7037210cd4a72dcfb10d32c2b43d5db044774` |
+| xkmyth.github.io | #7（极光层） | `ab9d06aa1df57ad517b88d2811f01bda9037fcaf` |
+| xkmyth/xkmyth | #9（紧凑 Hero） | `f8e0a11ad5a71d143156fe942c9d64ab63dbeb36` |
+| xkmyth/about | #5（紧凑 Hero） | `c91b17991b1671bfd308b2f44a55039aedc56046` |
