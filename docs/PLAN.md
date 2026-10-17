@@ -445,3 +445,27 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 ### 18.4 校验结果
 
 `verify_all.py`：发行仓 1 + 主站 55 + 关于 1 + 工具站 162 = **219 页，错误 0**；`scan_dup_id.py` 重复 id 0；`smoke_tools.js` 工具总数 160 / 真实问题 0；`test_single_mode.js` 新增 21 个全 PASS。
+
+
+---
+
+## 19 · 第十二轮：可推广性与长页性能
+
+### 19.1 分区分享图
+
+`D:\xkmyth-eco\_tools\og_sections.py` 用 Pillow 生成 9 张 1200×630 分区 OG 图（`icons/og-tools.png`、`og-software.png`、`og-docs.png`、`og-blog.png`、`og-ecosystem.png`、`og-status.png`、`og-collections.png`、`og-lab.png`、`og-changelog.png`），风格与站点一致：深空渐变 + 双极光 + 金色渐变星 + 标题/副标题/域名。`og_meta.py` 遍历四仓 164 个页面，按路径前缀挑图并补齐 `og:type/site_name/title/description/url/image(+宽高)` 与 `twitter:card/title/description/image`，已有标签不覆盖。
+
+### 19.2 长页性能
+
+`sub.css` 给 `.cat-sec`、`.tool-grid .tool-link`、`.site-grid .site-card`、`.tl-item` 加 `content-visibility: auto` + `contain-intrinsic-size: auto 220px`；`prefers-reduced-motion` 下退化为 `visible`。160 张工具卡与 9 个分类区块不再在首屏一次性布局。
+
+### 19.3 三个小交互
+
+- 详情页「长得什么样」卡片右上角加「复制示例」按钮（`#copyEx` 读 `#exText` 文本，`navigator.clipboard` 失败回退 `execCommand`）；
+- 工具目录页 chips 末尾加「🎲 随机一个」，从当前可见工具里抽一个跳转；
+- 51 个详情页补「这套流程里的其他工具」侧栏卡，数据来自八组合集反查（`flow_links.py` 直接 import `gen_collections.COMBOS`，不另存一份映射）。
+- 6 个博客页在 `<head>` 补 `<link rel="alternate" type="application/rss+xml" href="/blog/feed.xml">`。
+
+### 19.4 校验
+
+`verify_all.py` 219 页 0 错误；`scan_dup_id.py` 0；`check_html.py` 工具站 162 页 0 错误。

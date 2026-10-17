@@ -177,3 +177,16 @@ CI 与本地检查器对 `/docs/` 这类根绝对路径，按页面最近的 `.g
 **背景**：工具数从 30 → 139 → 160，站点上出现「N 个工具」的地方超过十处，手改必漏。
 
 **决定**：`TOOL_COUNT` 只在 `sites_common.py` 定义；`refresh_stats.py` 重算 `/stats/` 与首页规模条；`fix_counts3.py` 负责全站文案替换；`scan_toolcount.py` 作为复查钩子，列出所有「N 个工具」的出现位置供人工确认。发布前必须让 `scan_toolcount.py` 只剩预期口径。
+
+
+## D29 · 分享图按分区生成，不共用一个通用图
+
+**背景**：最初全站共用 `icons/og-1200x630.png`，转发到群里时每一页长得一样，看不出点进去是什么。
+
+**决定**：按首级路径生成 9 张分区图（tools / software / docs / blog / ecosystem / status / collections / lab / changelog），`og_meta.py` 依据 URL 前缀选图，未知路径回落通用图。图由 `og_sections.py` 脚本生成，改文案只需重跑一次，不手工 P 图。
+
+## D30 · 长列表用 `content-visibility` 换首屏性能
+
+**背景**：`/tools/` 有 160 张卡、9 个分类区块，`/changelog/` 有几十条时间轴，移动端首屏布局开销偏高。
+
+**决定**：对这些「长且可分段」的容器加 `content-visibility: auto` + `contain-intrinsic-size`，并在 `prefers-reduced-motion` 下关闭。注意点：加了之后容器内元素的 `scrollIntoView` 与 `getBoundingClientRect` 会在首次进入视口前近似，所以**只给不会作为锚点目标的容器加**；目录页原有 `#tool-<id>` 锚点已在第一轮换成详情页链接，正因此可以安全启用。
