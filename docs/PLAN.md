@@ -111,12 +111,12 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 
 ## 7. Roadmap 状态
 
-- [x] M1 下载中心改版（页面/脚本/文档/CI 全部落地）— 待推送
-- [x] M2 协作基建落仓（COORDINATION + 模板 + label + 分支保护）— 待 API 执行
-- [ ] M3 主站换肤 + 版本动态化
-- [ ] M4 about 换肤
-- [ ] M5 Timarsky 换肤（类名兼容重构）
-- [ ] M6 全生态验收（四站可打开、链接可达、无死引用）
+- [x] M1 下载中心改版 — 已合并 main @ 7dcae2a
+- [x] M2 协作基建落仓（COORDINATION + 模板 + label + 分支保护 × 4 仓）— 已完成
+- [x] M3 主站换肤 + 版本动态化 — 已合并 @ 8b4a364 → https://xkmyth.github.io/
+- [x] M4 about 换肤 — 已合并 @ 9a97cc3 → https://xkmyth.github.io/about/
+- [x] M5 Timarsky 换肤（类名兼容重构）— 已合并 @ 36095be → https://xkmyth.github.io/Timarsky/
+- [x] M6 全生态验收 — 四站 200、无 v4.0.2 遗留、锚点/引用/语法全过
 
 ## 8. 建议清单（后续可选，按性价比排序）
 
@@ -128,3 +128,26 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 6. **下载统计与 CDN 加速**：GitHub 直连在国内波动大，可加 jsDelivr/Cloudflare Pages 镜像（`latest` 直链不变，多一条备用链路）。
 7. **国际化**：至少英文 README；站点双语切换成本中等。
 8. **校验和页面**：公开 SHA256SUMS 文件 + 页面展示，配 §6 落地。
+
+## 9. 交付记录（2026-10-17）
+
+### 9.1 合并与上线
+
+| 仓库 | 分支 | merge commit | 线上 | 实测 |
+| --- | --- | --- | --- | --- |
+| xkmyth/xkmyth | agent/a1/revamp | 7dcae2a | https://xkmyth.github.io/xkmyth/ | 200 · 8706B |
+| xkmyth.github.io | agent/a1/revamp | 8b4a364 | https://xkmyth.github.io/ | 200 · 8586B |
+| about | agent/a1/revamp | 9a97cc3 | https://xkmyth.github.io/about/ | 200 · 6033B |
+| Timarsky | agent/a1/revamp | 36095be | https://xkmyth.github.io/Timarsky/ | 200 · 114978B |
+
+四仓 `validate` 工作流全绿，均走「分支 → PR #1 → CI → 合并」，`main` 已开分支保护。
+
+### 9.2 本次踩坑（已沉淀为 D8/D9）
+
+- Timarsky 的 `check.yml` 被 PowerShell 控制台编码写成 GBK，GitHub 无法解析 YAML：工作流仍显示 active，但运行记录里没有 job、`check-runs` 数量为 0，工作流名退化成文件路径。修复 commit `c3cae7d` 以 UTF-8/LF 重写后一次通过。
+- `push` 到非 `main` 分支不触发 `check`（`on.push.branches: [main]`），CI 只由 `pull_request` 事件产生 —— 轮询要查 `event=pull_request` 的运行，而不是 `event=push`。
+
+### 9.3 遗留（不编造内容，交由内容侧处理）
+
+- 工具站 banner 写「28 大模块」，实际模块为 `m1`–`m4`、`m6`–`m27` 共 27 个，「编程」模块内容缺失，原导航 `#m5` 为死链（已移除链接，未伪造内容）。补内容后把 `id="m5"` 加回并在导航恢复即可。
+- 四仓 `docs/` 内的设计规范为人工副本，长期看可抽成独立仓库由 CI 校验一致性（见 §8 建议 4）。
