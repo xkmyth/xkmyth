@@ -1,4 +1,4 @@
-# xkmyth · 星空神话 下载中心
+# xkmyth · 星空神话 Downloads
 
 xkmyth 生态所有安装包的集散地：小文件走 GitHub Releases（全球 CDN 直连），大文件走私有云盘直链。
 
