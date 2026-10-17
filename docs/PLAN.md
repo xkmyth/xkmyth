@@ -151,3 +151,38 @@ xkmyth（星空神话）是一个自建数字生态：浏览器、私有云盘�
 
 - 工具站 banner 写「28 大模块」，实际模块为 `m1`–`m4`、`m6`–`m27` 共 27 个，「编程」模块内容缺失，原导航 `#m5` 为死链（已移除链接，未伪造内容）。补内容后把 `id="m5"` 加回并在导航恢复即可。
 - 四仓 `docs/` 内的设计规范为人工副本，长期看可抽成独立仓库由 CI 校验一致性（见 §8 建议 4）。
+
+## 10. 第二轮迭代（2026-10-17）
+
+### 10.1 交付内容
+
+| 项 | 位置 | 说明 |
+| --- | --- | --- |
+| 改名 | 发行仓 index.html / README | 「下载中心」→ **Downloads**（title / og:title / h1 / 正文），URL 与仓库名不变 |
+| 子站 ×4 | 主站 `/docs/` `/changelog/` `/status/` `/support/` | 文档、版本日志（Releases 时间轴）、生态状态（四仓实时）、支持反馈 |
+| 共享组件 | 主站 `sub.css` / `sub.js` | 子页统一样式：页头、卡片、表格、手风琴、时间轴、状态点、渐入、Toast |
+| 首页入口 | 主站 `#sites` 区 + 导航 Docs + 页脚四链接 | 四个子站可达，导航 下载→Download |
+| 在线工具箱 | 工具站 `/Timarsky/tools/` | 11 个真正可用的纯前端工具，见 10.2 |
+| CI 升级 | 四仓 `.github/workflows/check.yml` | 全部 JS `node --check` + 全部 HTML 解析/本地引用/锚点 + 外链警告 |
+| 本地等价脚本 | `D:\xkmyth-eco\_tools\check_html.py` | 与 CI 内嵌逻辑同源，提交前自查 |
+
+### 10.2 工具箱清单（11 个，全部纯浏览器端）
+
+时间戳转换（实时时钟）· Base64 编解码 · URL 编解码 · JSON 美化和校验 · 文本统计（字符/词/行/字节 + 动画计数）· 命名风格转换（camel/snake/kebab/常量/帕斯卡）· 哈希（SHA-1/256/512，WebCrypto）· 密码生成（熵值与强度条）· UUID v4 批量 · 颜色转换（HEX/RGB/HSL + 取色）· 进制转换（2/8/10/16）
+
+交互：分类 chips 过滤、输入波纹涟漪、结果 flash 高亮、一键复制 Toast、卡片滚动渐入、实时时钟、星空背景（DPR≤2 / 后台暂停 / reduced-motion 全关）。
+
+### 10.3 合并记录
+
+| 仓库 | PR | merge commit |
+| --- | --- | --- |
+| xkmyth/xkmyth | #3 | c047d491914c4d9385950da70ceb4f32508777b3 |
+| xkmyth.github.io | #2 | 4f5a128b269ad9b3e29bc0a9144425e477f62ec1 |
+| about | #2 | 0308157ef4a09a3523af39f4b8aa31b3c85be3d7 |
+| Timarsky | #2 | b32869c9d47b64128f1efa9da9e77801e0daea23 |
+
+### 10.4 第二轮踩坑
+
+- CI 模板用 `str.format()` 拼装时，模板内的 `{"User-Agent": ...}` 花括号被当成占位符 → `KeyError`。改为 `@@PLACEHOLDER@@` + `str.replace()`。
+- 主站页面引用兄弟仓库绝对路径 `/Timarsky/`、`/about/`，被本地检查器判为死链 → 检查器改为「根绝对路径且本仓不存在」只告警（D10）。
+- `git push` 在跨境网络下首推基本必失败，重试 2–3 次才成功（Timarsky 这轮重试 2 次）。
