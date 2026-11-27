@@ -648,3 +648,38 @@ finalize_site.py
 ### 24.4 验收
 
 重跑后：`/press/` 一句话改「十一个离线可用的自研 Web 应用、一百六十个在线工具」；主站 57 页补齐 `og:type/site_name/title/description/url/image`；博客列表 8 篇且带 feed 链接；`/benchmark/` 与 `/lab/` 恢复；`verify_all.py` 四仓 0 错误；索引 221 条、sitemap 222 条。
+
+
+## 25 · 第二十一轮：开发者模式与内置 AI 助手（2026-11-27）
+
+主人要求在既有五条目标上加第 ④ 条：**开发者模式 + 内置 AI 助手，用 DeepSeek 的 key**。落地情况：
+
+### 25.1 助手怎么工作
+
+- 新增 `/js/ai.js`（13.4 KB，IIFE，零依赖）：右下角金色按钮（Ctrl/⌘+J 也能唤起）→ 面板 → `POST https://api.deepseek.com/chat/completions`，`stream: true`，自己解析 SSE，逐字上屏；停止按钮走 `AbortController`。
+- key 解析顺序：`localStorage['xk-ai-key']`（用户自己填的，设置面板里填一次）→ `/js/ai-key.js` 内置演示 key。key 从不写进页面 HTML。
+- 会话只在本机：`localStorage['xk-ai-chat']`，最多 20 轮，清空按钮就是删这一个键。
+- 错误口径分开：401 key 失效 / 402 余额不足 / 429 限流 / 400 参数，都翻译成人话，不甩英文堆栈。
+- 系统提示里写清了站点事实（160 工具、11 应用、路径约定），并要求「先结论再做法、不知道就说不知道」。
+
+### 25.2 `/developer/` 开发者模式页
+
+- 一页讲完：怎么唤起助手、直连 API 的两份示例（浏览器 fetch 流式 + curl）、站点数据的真实来源（`/search-index.json`、`/sitemap.xml`、`/manifest.webmanifest`、`/sw.js`、`/benchmark/`、`/stats/`、`/docs/api/`、`tools.js`）、本机数据自查入口、三步上手。
+- 页面上的统计（索引条目、sitemap 页面数）是运行时 GET 出来的真实数字，没有手写常量。
+- 页脚「参与」列与 `sites_common.SITEMAP` 都加了 `/developer/` 入口；`search-index` 与 `sitemap` 由收口链自动收录。
+
+### 25.3 覆盖范围与注入方式
+
+- 脚本注入 59 页（主站 58 + 工具站 2 页里的 index/tools），统一 `<script src="/js/ai.js" defer>`；`/js/ai.js` 是根绝对路径，工具站同源可直接用。
+- about 与发行仓是独立 Pages 仓，没有这个文件，也不注入 —— 保持「各自仓独立可跑」的既有边界（D18）。
+- `sub.css` 追加 `.ai-*` 全套（含 `html[data-theme="light"]` 覆盖、720px 单列、`prefers-reduced-motion` 关动画）。
+
+### 25.4 验收
+
+- `node --check js/ai.js` 通过；`verify_all.py` 主站 59 页、工具站 162 页 0 错误；`scan_dup_id.py` 0 处重复 id。
+- `finalize_site.py` 通过：索引 222 条 · kw 最长 240 · sitemap 223 条。
+- 线上（`verify_live21.py`）：`/developer/`、`/js/ai.js`、`/js/ai-key.js` 全 200，页面含助手入口与 API 示例。
+
+### 25.5 一条必须写下来的风险
+
+纯静态站点没有后端，**任何下发到浏览器的 key 都是公开的**。本轮按主人要求内置了演示 key，但文件头、`/developer/` 页和汇报里都写明：正式对外前应轮换、限额，或改成后端代理。这不是「待优化」，是这类站点的硬约束。
